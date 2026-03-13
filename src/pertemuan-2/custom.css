@@ -1,0 +1,96 @@
+/* Import font 'Inter' untuk tampilan clean dan modern ala iOS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+/* --- Styling Keseluruhan Halaman --- */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Gradasi lembut dari Claret ke Soft Pink */
+    background: linear-gradient(135deg, #670626 0%, #FFBDC5 100%);
+    background-attachment: fixed; /* Mencegah gradasi terpotong saat di-scroll */
+    margin: 0;
+    padding: 40px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+/* --- Container Utama (Glass Card) --- */
+.card {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+    margin-bottom: 24px;
+    
+    /* Efek Glassmorphism */
+    background: rgba(255, 255, 255, 0.45); /* Putih transparan */
+    backdrop-filter: blur(18px); /* Efek kaca blur */
+    -webkit-backdrop-filter: blur(18px); /* Dukungan untuk browser Safari */
+    
+    border-radius: 24px; /* Sudut melengkung besar khas iOS */
+    border: 1px solid rgba(255, 255, 255, 0.6); /* Border putih tipis untuk ilusi tepi kaca */
+    
+    /* Shadow lembut untuk efek floating */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect ringan pada card (opsional, agar lebih interaktif) */
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Header Utama --- */
+h1 {
+    color: #670626; /* Claret */
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    font-size: 2.2rem;
+}
+
+/* --- Paragraf --- */
+p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333333; /* Abu gelap agar kontras dengan background kaca yang terang */
+    margin-bottom: 16px;
+}
+
+/* --- Garis Pemisah (Divider) --- */
+hr {
+    border: none;
+    height: 1px;
+    background: rgba(103, 6, 38, 0.15); /* Menggunakan warna claret yang ditransparansikan */
+    margin: 30px 0;
+}
+
+/* --- Greeting / Subtext --- */
+small {
+    display: block;
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+    color: #670626; 
+    opacity: 0.8;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    /* Diasumsikan footer berada di luar .card (langsung di atas body gradient) */
+    color: rgba(255, 255, 255, 0.85); /* Putih transparan agar menyatu dengan background gelap */
+    margin-top: auto; /* Selalu mendorong footer ke bagian paling bawah layar */
+    padding: 20px 0;
+    letter-spacing: 0.5px;
+}
