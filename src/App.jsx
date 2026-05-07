@@ -5,8 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Orders from "./pages/Orders";
 import Customers from "./pages/Customers";
 import NotFound from "./pages/NotFound";
-
-
+import ErrorPage from "./pages/ErrorPage";
 function App() {
   return (
     <div id="app-container" className="bg-gray-100 min-h-screen flex">
@@ -20,7 +19,34 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/customers" element={<Customers />} />
-             <Route path="*" element={<NotFound />} />
+            <Route
+              path="/error-400"
+              element={
+                <ErrorPage
+                  code="400"
+                  description="Bad Request. Permintaan tidak dapat diproses."
+                />
+              }
+            />
+            <Route
+              path="/error-401"
+              element={
+                <ErrorPage
+                  code="401"
+                  description="Unauthorized. Anda tidak memiliki akses ke halaman ini."
+                />
+              }
+            />
+            <Route
+              path="/error-403"
+              element={
+                <ErrorPage
+                  code="403"
+                  description="Forbidden. Akses ditolak oleh sistem."
+                />
+              }
+            />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
