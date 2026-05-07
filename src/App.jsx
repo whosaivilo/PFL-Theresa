@@ -25,6 +25,7 @@ function App() {
                 <ErrorPage
                   code="400"
                   description="Bad Request. Permintaan tidak dapat diproses."
+                  image="https://cdn-icons-png.flaticon.com/512/1046/1046771.png"
                 />
               }
             />
@@ -34,6 +35,7 @@ function App() {
                 <ErrorPage
                   code="401"
                   description="Unauthorized. Anda tidak memiliki akses ke halaman ini."
+                  image="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
                 />
               }
             />
@@ -43,6 +45,7 @@ function App() {
                 <ErrorPage
                   code="403"
                   description="Forbidden. Akses ditolak oleh sistem."
+                  image="https://cdn-icons-png.flaticon.com/512/2927/2927347.png"
                 />
               }
             />
