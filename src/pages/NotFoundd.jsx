@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function NotFound() {
+export default function NotFoundd() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white p-10 text-center font-poppins">
       {/* Ilustrasi atau Angka Besar */}

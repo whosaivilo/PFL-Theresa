@@ -6,7 +6,7 @@ import Loading from "./components/Loading";
 const Dashboard = React.lazy(() => import("./pages/Dashboard"))
 const Orders = React.lazy(() => import("./pages/Orders"))
 const Customers = React.lazy(() => import("./pages/Customers"))
-const NotFound = React.lazy(() => import("./pages/NotFound"))
+const NotFoundd = React.lazy(() => import("./pages/NotFoundd"))
 const Products = React.lazy(() => import("./pages/Products"))
 const ErrorPage = React.lazy(() => import("./pages/ErrorPage"))
 const MainLayout = React.lazy(() => import("./layouts/MainLayout"))
@@ -59,7 +59,7 @@ function App() {
             />
           }
         />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFoundd />} />
       </Route>
 
       <Route element={<AuthLayout />}>
