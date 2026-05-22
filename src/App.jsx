@@ -17,6 +17,8 @@ const Forgot = React.lazy(() => import("./pages/auth/Forgot"))
 const ProductDetail = React.lazy(() => import("./pages/ProductDetail"))
 
 
+
+
 function App() {
   return (
     	<Suspense fallback={<Loading />}>
