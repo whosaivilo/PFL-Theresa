@@ -16,10 +16,7 @@ export default function NotFound() {
       <Link to="/" className="mt-6 rounded-xl bg  -hijau px-6 py-3 font-bold text-white shadow-lg hover:bg-green-600 transition-all">
         Kembali ke Dashboard
       </Link>
-      
-      
-
-      {/* tes */}
+   
     
     </div>
   );
