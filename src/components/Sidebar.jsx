@@ -1,3 +1,4 @@
+import { AiOutlineDropbox } from "react-icons/ai"; 
 import { BsPeople } from "react-icons/bs";
 import { AiFillCustomerService } from "react-icons/ai";
 import { FaMoneyBillAlt } from "react-icons/fa";
@@ -47,6 +48,12 @@ export default function Sidebar() {
             <NavLink to="/customers" className={menuClass}>
               <BsPeople className="mr-4 text-xl" />
               Customer
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/products" className={menuClass}>
+              <AiOutlineDropbox className="mr-4 text-xl" />
+              Produk
             </NavLink>
           </li>
           <li>
