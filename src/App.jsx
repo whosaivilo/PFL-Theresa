@@ -8,6 +8,7 @@ const Orders = React.lazy(() => import("./pages/Orders"))
 const Customers = React.lazy(() => import("./pages/Customers"))
 const NotFound = React.lazy(() => import("./pages/NotFound"))
 const ErrorPage = React.lazy(() => import("./pages/ErrorPage"))
+const Components = React.lazy(() => import("./pages/Components"))
 const MainLayout = React.lazy(() => import("./layouts/MainLayout"))
 const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"))
 const Login = React.lazy(() => import("./pages/auth/Login"))
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/customers" element={<Customers />} />
+        <Route path="/components" element={<Components />} />
         <Route
           path="/error-400"
           element={
