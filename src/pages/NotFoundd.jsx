@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function NotFound() {
+export default function NotFoundd() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white p-10 text-center font-poppins">
       {/* Ilustrasi atau Angka Besar */}
@@ -16,11 +16,7 @@ export default function NotFound() {
       <Link to="/" className="mt-6 rounded-xl bg  -hijau px-6 py-3 font-bold text-white shadow-lg hover:bg-green-600 transition-all">
         Kembali ke Dashboard
       </Link>
-      
-      
-
-      
-
+   
     
     </div>
   );
