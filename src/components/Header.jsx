@@ -38,12 +38,7 @@ export default function Header() {
             50
           </span>
         </div>
-        <div
-          id="chart-icon"
-          className="p-3 bg-blue-100 rounded-2xl cursor-pointer"
-        >
-          <FcAreaChart />
-        </div>
+       
         <div
           id="package-icon"
           className="p-3 bg-orange-100 rounded-2xl cursor-pointer"
