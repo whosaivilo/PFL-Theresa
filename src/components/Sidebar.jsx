@@ -77,7 +77,7 @@ export default function Sidebar() {
           </li>
           <li>
             <NavLink to="/FiturXyz" className={menuClass}>
-              <AiOutlineMenu /> className="mr-4 text-xl" />
+              <AiOutlineMenu  className="mr-4 text-xl" />
               Fitur Xyz
             </NavLink>
           </li>
