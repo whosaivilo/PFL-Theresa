@@ -1,4 +1,7 @@
+
+import { Button } from "@/components/ui/button";
 import PageHeader from "../components/PageHeader";
+import Card from "@/components/Card";
 
 export default function FiturXyz() {
     return (
@@ -6,6 +9,12 @@ export default function FiturXyz() {
       
             <div className="p-5">
                 <PageHeader title="Fitur XYZ" breadcrumb="Fitur XYZ / Fitur XYZ List" />
+                <p>Ini halaman fitur xyz</p>
+                <Button>TES</Button>
+                <Button variant="link">Button Link</Button>
+                
+
+                <Card>Ini contoh card</Card>
             </div>
         </div> 
     );
