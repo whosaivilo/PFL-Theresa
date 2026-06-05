@@ -38,7 +38,12 @@ export default function Header() {
             50
           </span>
         </div>
-       
+        <div
+          id="chart-icon"
+          className="p-3 bg-blue-100 rounded-2xl cursor-pointer"
+        >
+          <FcAreaChart />
+        </div>
         <div
           id="package-icon"
           className="p-3 bg-orange-100 rounded-2xl cursor-pointer"
@@ -58,7 +63,7 @@ export default function Header() {
           className="flex items-center space-x-4 border-l pl-4 border-gray-300"
         >
           <span id="profile-text">
-            Hello, <b>Theresa Olivia</b>
+            Hi, <b>Theresa Olivia</b>
           </span>
           <img
             id="profile-avatar"
