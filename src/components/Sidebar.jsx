@@ -1,3 +1,4 @@
+import { AiOutlineMenu } from "react-icons/ai"; 
 import { AiOutlineDropbox } from "react-icons/ai"; 
 import { BsPeople } from "react-icons/bs";
 import { AiFillCustomerService } from "react-icons/ai";
@@ -76,7 +77,7 @@ export default function Sidebar() {
           </li>
           <li>
             <NavLink to="/FiturXyz" className={menuClass}>
-              <AiFillCustomerService className="mr-4 text-xl" />
+              <AiOutlineMenu /> className="mr-4 text-xl" />
               Fitur Xyz
             </NavLink>
           </li>
