@@ -1,3 +1,4 @@
+import { BiNote } from "react-icons/bi"; 
 import { AiOutlineMenu } from "react-icons/ai"; 
 import { AiOutlineDropbox } from "react-icons/ai"; 
 import { BsPeople } from "react-icons/bs";
@@ -79,6 +80,12 @@ export default function Sidebar() {
             <NavLink to="/FiturXyz" className={menuClass}>
               <AiOutlineMenu  className="mr-4 text-xl" />
               Fitur Xyz
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/notes" className={menuClass}>
+              <BiNote  className="mr-4 text-xl" />
+              Note
             </NavLink>
           </li>
           <li>
