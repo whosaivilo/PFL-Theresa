@@ -55,7 +55,7 @@ export default function Components() {
       <div>
         <div className="flex gap-2">
           <Avatar name="Fikri" />
-          <Avatar name="Hendra" />
+          <Avatar name="Hendra" />k
           <Avatar name="Suci" />
         </div>
       </div>

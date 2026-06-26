@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { supabase } from '../../lib/supabase';
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 import { ImSpinner2 } from "react-icons/im";
 
 export default function Login() {
-  /* navigate, state & handleChange*/
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -21,38 +20,30 @@ export default function Login() {
       [name]: value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setLoading(true);
-    setError(false);
+    setError("");
 
-    axios
-      .post("https://dummyjson.com/user/login", {
-        username: dataForm.email,
+    try {
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email: dataForm.email,
         password: dataForm.password,
-      })
-      .then((response) => {
-        // Jika status bukan 200, tampilkan pesan error
-        if (response.status !== 200) {
-          setError(response.data.message);
-          return;
-        }
-
-        // Redirect ke dashboard jika login sukses
-        navigate("/");
-      })
-      .catch((err) => {
-        if (err.response) {
-          setError(err.response.data.message || "An error occurred");
-        } else {
-          setError(err.message || "An unknown error occurred");
-        }
-      })
-      .finally(() => {
-        setLoading(false);
       });
+
+      if (signInError) throw signInError;
+
+      // Redirect ke dashboard jika login sukses
+      navigate("/");
+    } catch (err) {
+      setError(err.message || "An unknown error occurred");
+    } finally {
+      setLoading(false);
+    }
   };
+
   const errorInfo = error ? (
     <div className="bg-red-200 mb-5 p-5 text-sm font-light text-gray-600 rounded flex items-center">
       <BsFillExclamationDiamondFill className="text-red-600 me-2 text-lg" />
@@ -66,6 +57,7 @@ export default function Login() {
       Mohon Tunggu...
     </div>
   ) : null;
+
   return (
     <div>
       <h2 className="text-2xl font-semibold text-gray-700 mb-6 text-center">
@@ -81,10 +73,11 @@ export default function Login() {
             Email Address
           </label>
           <input
-            type="text"
+            type="email"
             id="email"
             name="email"
             onChange={handleChange}
+            required
             className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm
                             placeholder-gray-400"
             placeholder="you@example.com"
@@ -99,6 +92,7 @@ export default function Login() {
             id="password"
             name="password"
             onChange={handleChange}
+            required
             className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm
                             placeholder-gray-400"
             placeholder="********"
@@ -106,8 +100,9 @@ export default function Login() {
         </div>
         <button
           type="submit"
+          disabled={loading}
           className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4
-                        rounded-lg transition duration-300"
+                        rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Login
         </button>

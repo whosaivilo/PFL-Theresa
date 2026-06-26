@@ -1,34 +1,78 @@
-import { useState } from "react"; 
+import { useState, useEffect } from "react"; 
 import PageHeader from "../components/PageHeader";
-import allData from "../dummyData.json";
+import { supabase } from "../lib/supabase";
 
 export default function Customers() {
   const [isAdding, setIsAdding] = useState(false);
-  const customers = allData.customerData;
+  const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: ""
+  });
+  const [submitLoading, setSubmitLoading] = useState(false);
 
-  // --- LOGIKA AUTO-GENERATE CUSTOMER ID ---
-  const lastCustomer = customers[customers.length - 1];
-  const lastIdNumber = parseInt(lastCustomer.id.split('-')[1]);
-  const nextCustomerId = `CUST-${String(lastIdNumber + 1).padStart(3, '0')}`;
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
 
-  // Fungsi untuk menentukan warna badge loyalty
-  const getLoyaltyStyle = (loyalty) => {
-    switch (loyalty.toLowerCase()) {
-      case 'gold':
-        return 'bg-amber-100 text-amber-700 border-amber-200';
-      case 'silver':
-        return 'bg-slate-100 text-slate-700 border-slate-200';
-      case 'bronze':
-        return 'bg-orange-100 text-orange-700 border-orange-200';
-      default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+  const fetchCustomers = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('customers')
+        .select('*')
+        .order('created_at', { ascending: false });
+        
+      if (error) throw error;
+      if (data) setCustomers(data);
+    } catch (error) {
+      console.error("Error fetching customers:", error);
+      alert("Gagal memuat data pelanggan");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('customers')
+        .insert([{
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone
+        }])
+        .select();
+
+      if (error) throw error;
+      
+      alert("Berhasil menambahkan pelanggan!");
+      setFormData({ name: "", email: "", phone: "" });
+      setIsAdding(false);
+      fetchCustomers();
+    } catch (error) {
+      console.error("Error inserting customer:", error);
+      alert(error.message || "Gagal menambahkan pelanggan");
+    } finally {
+      setSubmitLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 pb-10 font-poppins">
       <PageHeader title="Customer" breadcrumb={["Dashboard", "Customer List"]}>
-        {/* Tombol dimasukkan sebagai children agar muncul di PageHeader */}
         <button 
           onClick={() => setIsAdding(!isAdding)}
           className="bg-hijau text-white px-4 py-2 rounded-lg font-bold shadow-md hover:bg-green-600 transition-all"
@@ -44,87 +88,98 @@ export default function Customers() {
             <div id="form-customer">
                <h2 className="text-xl font-bold mb-6 text-slate-700">Form Add New Customer</h2>
                
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+               <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
                  <div className="flex flex-col gap-2">
-                   <label className="text-sm font-bold text-slate-600">Customer ID (Auto)</label>
+                   <label className="text-sm font-bold text-slate-600">Full Name</label>
                    <input 
                      type="text" 
-                     value={nextCustomerId} 
-                     readOnly 
-                     className="p-3 border border-slate-100 bg-slate-50 text-slate-400 rounded-xl outline-none cursor-not-allowed" 
+                     name="name"
+                     value={formData.name}
+                     onChange={handleInputChange}
+                     required
+                     placeholder="Masukkan nama lengkap" 
+                     className="p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none" 
                    />
                  </div>
 
                  <div className="flex flex-col gap-2">
-                   <label className="text-sm font-bold text-slate-600">Full Name</label>
-                   <input type="text" placeholder="Masukkan nama lengkap" className="p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none" />
-                 </div>
-
-                 <div className="flex flex-col gap-2">
                    <label className="text-sm font-bold text-slate-600">Email Address</label>
-                   <input type="email" placeholder="contoh@mail.com" className="p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none" />
+                   <input 
+                     type="email" 
+                     name="email"
+                     value={formData.email}
+                     onChange={handleInputChange}
+                     required
+                     placeholder="contoh@mail.com" 
+                     className="p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none" 
+                   />
                  </div>
 
                  <div className="flex flex-col gap-2">
                    <label className="text-sm font-bold text-slate-600">Phone Number</label>
-                   <input type="text" placeholder="0812..." className="p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none" />
+                   <input 
+                     type="text" 
+                     name="phone"
+                     value={formData.phone}
+                     onChange={handleInputChange}
+                     placeholder="0812..." 
+                     className="p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none" 
+                   />
                  </div>
 
-                 <div className="flex flex-col gap-2">
-                   <label className="text-sm font-bold text-slate-600">Loyalty Level</label>
-                   <select className="p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none bg-white">
-                     <option value="Bronze">Bronze</option>
-                     <option value="Silver">Silver</option>
-                     <option value="Gold">Gold</option>
-                   </select>
+                 <div className="col-span-1 md:col-span-2 mt-4">
+                   <button 
+                     type="submit" 
+                     disabled={submitLoading}
+                     className="bg-hijau text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-green-600 transition-all active:scale-95 disabled:opacity-50"
+                   >
+                     {submitLoading ? "Saving..." : "Save Customer Data"}
+                   </button>
                  </div>
-               </div>
-
-               <div className="mt-8">
-                 <button className="bg-hijau text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-green-600 transition-all active:scale-95">
-                   Save Customer Data
-                 </button>
-               </div>
+               </form>
             </div>
           ) : (
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">ID</th>
-                  <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Customer Name</th>
-                  <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Email</th>
-                  <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Loyalty</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {customers.map((cust) => (
-                  <tr key={cust.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-slate-400">
-                      #{cust.id.split('-')[1]}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm font-semibold text-slate-700 block">
-                        {cust.name}
-                      </span>
-                      <span className="text-xs text-slate-400">
-                        {cust.phone}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-slate-600">
-                      {cust.email}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border ${getLoyaltyStyle(cust.loyalty)}`}>
-                        {cust.loyalty}
-                      </span>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200">
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Email</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Phone</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {loading ? (
+                    <tr>
+                      <td colSpan="3" className="text-center py-8 text-slate-500">Loading customers...</td>
+                    </tr>
+                  ) : customers.length === 0 ? (
+                    <tr>
+                      <td colSpan="3" className="text-center py-8 text-slate-500">No customers found.</td>
+                    </tr>
+                  ) : (
+                    customers.map((cust) => (
+                      <tr key={cust.id} className="hover:bg-slate-50/80 transition-colors">
+                        <td className="px-6 py-4">
+                          <span className="text-sm font-semibold text-slate-700 block">
+                            {cust.name}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-slate-600">
+                          {cust.email}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-slate-600">
+                          {cust.phone || '-'}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>
     </div>
   );
-}
+}
